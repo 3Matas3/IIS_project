@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-2"/>
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<h1>Streetfood: prodej pouli�n�ho j�dla</h1> 
+
+<dl>
+	<dt>Autori</dt>
+	<dd>Michal Krul 
+	    <a href="mailto:xkrulm00@stud.fit.vutbr.cz">xkrulm00@stud.fit.vutbr.cz</a> -
+		logika aplikace, frontend
+	</dd>
+	<dd>Klara Formánkova 
+	    <a href="mailto:xforma14@stud.fit.vutbr.cz">xforma14@stud.fit.vutbr.cz</a> - 
+		tvorba zakladnych modelu pro controller + frontend informacneho systému
+	</dd>
+  <dd>Martina Chripkova 
+	    <a href="mailto:xchrip01@stud.fit.vutbr.cz">xchrip01@stud.fit.vutbr.cz</a> - 
+		databaza, cast frontendu 
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xkrulm00/IIS">http://www.stud.fit.vutbr.cz/~xkrulm00/IIS</a></dd>
+</dl>
+
+<h2>Uzivatele systemu pro testovani</h2>
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>alice</td><td>password</td><td>admin</td></tr>
+<tr><td>bob</td><td>password</td><td>admin</td></tr>
+<tr><td>harry</td><td>password</td><td>zamestnanec</td></tr>
+</table>
+
+<h2>Implementace</h2>
+<p>
+	Architektura aplikace dodrzuje principy trivrstvy architektury - prezentacny, aplikacny a databazova vrstva. Tomu tedy i odpoveda struktura trech hlavnych adresaru. 
+	Databazova vrstva je zde reprezentovana adresarem database, ve kterym lze najit veskery kod souvisejici s databazy systemu.
+	Adresar controller obsahuje definice pro zakladny datove struktury celeho systemu a operace s nimi, napr. produkt nebo objedn�vka.
+	V adresrii view je implementovana prezentacny vrstva aplikace.<br>
+
+	Databaze jede oddelene od klienta na serveru Heroku, client je na ukazku na serveru github
+</p>
+<h3>Jednotlive pripady uziti</h3>
+<p>
+	prihlaseni uzivatele - VIEW/lib/src/login_page/<br>
+	registrace uzivatele - VIEW/lib/src/register_page/<br>
+	sprava uzivatelu - VIEW/lib/src/user_manager/<br>
+	sprava udalosti, produktu, ingredienci - VIEW/lib/src/manage_page/<br>
+	sprava objednavek - VIEW/lib/src/event_list_page/<br>
+</p>
+<h3>Uzivatelské role</h3>
+<p> Zamestnanec - pridava objednavky, meni ich status</p>
+<p>Administrator - managment ingredienci, produktov, akcii, uzivatelov, pridavanie objednavok, zmena ich stavu</p>
+<p>Neprihlaseny uzivatel - vidi akcie a ich aktualnu ponuku</p>
+
+
+<h3>Databaze</h3>
+<img src="schema_db.png" alt="Schema" width="803" height="500">
+
+<h2>Instalace</h2>
+postup instalace na server - Aplikace se preklada pomoci prikazi webdev build za predpokladu ze je nainstalovany a aktivovany nastroj webdev(pub global activate webdev). Poe staci pouze otevrit soubor index.html<br>
+softwarove pozadavky - Definovany v kazdem ze tri hlavnych adresaru v souborech "pubspec.yaml", ziskane prikazem "pub get"<br>
+jak rozbalit, konfigurovat, inicializovat databazi - Pro databazi je potreba nastroj psql a aqueduct. Aqueduct je nutne aktivovat pomoci prikazu 'pub global activate aqueduct'. V konzoli psql je potreba pomoci SQL dotazu vytvorit databazi, uzivatele a zadat vsechny prava pro uzivatele databazi (kombinace dotazu nize)<br>
+CREATE DATABASE database;<br>
+CREATE USER user WITH createdb;<br>
+ALTER USER user WITH password 'pwd';<br>
+GRANT all ON database database TO user;<br>
+nasleduje kombinace dotazu:<br>
+aqueduct db generate
+aqueduct db upgrade --connect postger://user:password@domain:port/database (specifikovano v database.yaml) <br>
+aqueduct auth add-client --id iis --connect postgres://user:password@doamin:port/database - kvuli authentikaci <br>
+
+
+<h2>Zname problemy</h2>
+<p>Nacitanie objednavok chvilu trva kym sa natahaju z databazy</p>
+</body>
+</html>

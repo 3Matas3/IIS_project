@@ -1,0 +1,133 @@
+
+<div class="sticky-top" style="float: right;">
+    <nav class="navbar navbar-light">
+      <ul class="nav nav-fill">
+      <li class="nav-item">
+          <a class="nav-link" href="#events_list">Main menu</a>
+        </li>
+        <li class="nav-item">
+          <a [hidden]="!isAdmin()" class="nav-link" href="#user_manager">User manager</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="showStatistics()">Statistics</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#main" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+      <div class="my-2 my-lg-0">
+        {{loggedUser.username}}
+      </div>
+    </nav>
+  </div>
+  
+  <div class="container" *ngIf="event != null">
+      <h2 class="text-primary">{{event.name}}</h2>
+      <h5>{{event.date}}</h5>
+      <div *ngIf="(submitted && !newOrderForm)">
+        <br>
+        <button class="btn btn-outline-dark btn-sm" (click)="hideForms()">Go back</button>
+        <button class="btn btn-outline-dark btn-sm" (click)="saveOffer()" type="submit">Save</button>
+      </div>
+      <div *ngIf="(!submitted && !newOrderForm)">
+        <div>
+          <br>
+          <label>Offer: </label>
+          <div class="row">
+            <div class="col-sm-4 left">
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let product of event.offer">
+                  <span>{{product.name}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let product of event.offer">
+                  <span>{{product.price}},- </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div>
+            <div [hidden]="showcancelmessage">
+                <h3><label >Are you sure?</label></h3>
+                <button class="btn btn-outline-success btn" (click)="cancelOrder()">Yes</button>
+                <button class="btn btn-outline-danger btn" (click)="cancel()">No</button>
+            </div> 
+          <label class="font-weight-bold">Orders: </label> <button class="btn btn-outline-primary btn" style="float:right" (click)="startNewOrder()">New order</button> 
+          <button [hidden]="!activeO" class="btn btn-outline-dark btn" (click)="showNonActive()" style="position:relative; border-right: 100%; float: right;">Done & Cancelled</button>
+          <button [hidden]="activeO" class="btn btn-outline-dark btn" (click)="showNonActive()" style="position:relative; border-right: 100%; float: right;">Ordered & Ready</button>
+          <ul class="list-group" [hidden]="!activeO">
+            <li class="list-group-item" *ngFor="let order of activeOrders; let i=index">
+              <span class="font-weight-bold">Order {{i+1}}: </span> <span class="font-weight-bold text-primary">{{order.price}},-</span>  
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let p of order.products">
+                  <span>{{p.name}}</span>
+                </li>
+              </ul>
+              <br>
+              <div style="float:right">
+                <button class="btn btn-outline-dark btn" (click)="changeStatus(order)">{{order.status}}</button>
+                <button class="btn btn-outline-danger btn" (click)="cancelorder(order)">x</button>
+              </div>
+            </li>
+          </ul>
+          <ul class="list-group" [hidden]="activeO">
+            <li class="list-group-item" *ngFor="let or of nonActiveOrders; let j=index">
+              <span class="font-weight-bold">Order {{j+1}}: </span> <span class="font-weight-bold text-primary">{{or.price}},-</span>  
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let p of or.products">
+                  <span>{{p.name}}</span>
+                </li>
+              </ul>
+              <br>
+              <div style="float:right">
+                <span >{{or.status}}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <br>
+      </div>
+      <div *ngIf="(!submitted && newOrderForm)">
+        <div class="row">
+          <div class="col">
+            <label>Order:</label>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let p of newOrder.products">
+                <span>{{p.name}} </span> <button class="btn btn-outline-danger btn" (click)="removeProductFromOrder(p)">x</button>
+              </li>
+            </ul>
+            <div>
+              <br>
+              <span class="font-weight-bold">Total: {{newOrder.price}}</span>
+            </div>
+            <br>
+          </div>
+          <div class="col">
+            <label class="font-weight-bold">Offer:</label>
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let product of event.offer">
+                <span>{{product.name}} <button class="btn btn-outline-dark btn-sm" (click)="addToOrder(product)">+</button></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <br>
+        <button class="btn btn-outline-primary btn" (click)="cancel()">Cancel</button>
+        <button class="btn btn-outline-primary btn" (click)="saveOrder()" type="submit">Save</button>
+      </div>
+      <div *ngIf="statistics">
+        <br>
+        <div>
+          <label>Total price: {{totalPrice}}</label>
+        </div>
+        <div>
+          <label>Total products: {{totalProducts}}</label>
+        </div>
+        <button class="btn btn-outline-dark btn-sm" (click)="hideForms()">Go back</button>
+      </div>
+    </div>

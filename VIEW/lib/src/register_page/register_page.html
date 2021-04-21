@@ -1,0 +1,33 @@
+<div class="container">
+    <h1>Create new user</h1>
+    <div style="width: 500px;">
+        <form class="container mx-auto" (ngSubmit)="register()" #loginForm="ngForm">
+            <div class="form-group">
+                <label for="username">Username&nbsp;*</label>
+                <input type="text" class="form-control"  required
+                [(ngModel)]="username"
+                ngControl="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password&nbsp;*</label>
+                <input type="password" class="form-control" required
+                [(ngModel)]="password"
+                ngControl="password">
+            </div>
+            <div class="form-group">
+                <label for="role">Role&nbsp;*</label>
+                <select class="custom-select" [(ngModel)]="role">
+                    <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+                </select>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-auto">
+                    <button class="btn btn-dark btn-sm" (click)="goBack()">Cancel</button>
+                    <button class="btn btn-dark btn-sm" (click)="register()">Register</button>
+                </div>
+                <small class="col text-right">*&nbsp;Required</small>
+            </div>
+        </form>
+    </div>
+</div>

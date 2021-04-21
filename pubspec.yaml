@@ -1,0 +1,35 @@
+name: streetfoodapp
+description: Streetfood information system
+#version: 1.0.0
+#author: Michal Krůl
+
+environment:
+  sdk: '>=2.5.0 <3.0.0'
+
+dependencies:
+  angular: ^5.3.0
+  angular_components: ^0.13.0
+  angular_forms: ^2.1.2
+  angular_router: ^2.0.0-alpha+22
+  curl: ^1.0.0
+  aqueduct: ^3.0.0
+  meta: ^1.1.7
+  bloc: ^0.11.2
+  equatable: ^0.2.0
+  http: ^0.12.0
+  controller:
+    path: ./controller
+  database:
+    path: ./database
+  view:
+    path: ./VIEW
+
+
+dev_dependencies:
+  angular_test: ^2.3.0
+  build_runner: ^1.6.0
+  build_test: ^0.10.8
+  build_web_compilers: ^2.3.0
+  pedantic: ^1.8.0
+  test: ^1.6.0
+  aqueduct_test: ^1.0.0

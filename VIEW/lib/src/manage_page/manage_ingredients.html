@@ -1,0 +1,70 @@
+<div class="sticky-top" >
+    <ul class="nav nav-tabs nav-fill">
+      <nav class="navbar navbar-light">
+          <li class="nav-item">
+              <a class="nav-link" href="#events_list">Main menu</a>
+            </li> 
+        <li class="nav-item">
+          <a class="nav-link" href="#manage_events">Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#manage_products">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#manage_ingredients">Ingredients</a>
+        </li>
+      </nav>
+    </ul>
+  </div>
+
+<br>
+
+<h2 class="text-center">Manage ingredients</h2>
+<div>
+<div class="container">
+      <div [hidden]="!submitted" style="width: 500px;">
+      <br>
+      <h5>New ingredient</h5>
+      <form class="container mx-auto" (ngSubmit)="onSubmit()" #ingredientForm="ngForm">
+        <div class="form-group">
+          <label for="name">Name&nbsp;*</label>
+          <input type="text" class="form-control" id="name" required
+          [(ngModel)]="newIngredient.name"
+            ngControl="newIngredient.name">
+        </div>
+      </form>
+      <br>
+      <div class="row">
+        <div class="col-auto">
+          <button class="btn btn-primary btn" (click)="cancel()">Cancel</button>
+          <button class="btn btn-primary btn" (keyup.enter)="saveIngredient" (click)="saveIngredient()">Save</button>
+        </div>
+        <small class="col text-right">*&nbsp;Required</small>
+      </div>
+    </div>
+    <div [hidden]="submitted">
+      <div>
+        <button class="btn btn-primary btn " style="float:right" (click)="addIngredient()">+ Add ingredient</button>
+      </div>
+      <br>
+      <div style="width: 500px;">
+        <br>
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let ingredient of ingredients">
+            <form class="container mx-auto">
+              <span>{{ingredient.name}}</span> 
+              <button class="btn btn-outline-danger btn" style="float:right" (click)="remove(ingredient)">x</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <br>
+        <h3><label [hidden]="!showRemoveMess">Are you sure?</label></h3>
+        <button class="btn btn-outline-success btn-lg" [hidden]="!showRemoveMess" (click)="submitRemove()">Yes</button>
+        <button class="btn btn-outline-danger btn-lg" [hidden]="!showRemoveMess" (click)="cancel()">No</button>
+      </div>
+      <br>
+    </div>
+  </div>   
+</div>

@@ -1,0 +1,102 @@
+<div class="sticky-top" >
+    <ul class="nav nav-tabs nav-fill">
+      <nav class="navbar navbar-light">
+          <li class="nav-item">
+              <a class="nav-link" href="#events_list">Main menu</a>
+            </li> 
+        <li class="nav-item">
+          <a class="nav-link" href="#manage_events">Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#manage_products">Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#manage_ingredients">Ingredients</a>
+        </li>
+      </nav>
+    </ul>
+  </div>
+
+<br>
+
+<h2 class="text-center">Manage products</h2>
+<div>
+  <div class="container">
+    <div [hidden]="!submitted" style="width: 500px;">
+      <br>
+      <h5>New product</h5>
+      <form class="container mx-auto" (ngSubmit)="onSubmit()" #productForm="ngForm">
+        <div class="form-group">
+          <label for="name">Name&nbsp;*</label>
+          <input type="text" class="form-control" required
+          [(ngModel)]="newProduct.name"
+          ngControl="name">
+        </div>
+        <div class="form-group">
+          <label for="ingredients">Ingredients&nbsp;*</label>
+          <div class="checkbox" *ngFor="let i of ingredients">
+            <label><input type="checkbox" value="{{i.name}}" id="{{i.name}}" [(ngModel)]="checkbox[i.name]"> {{i.name}}</label>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-auto">
+            <button class="btn btn-primary btn" (click)="cancel()">Cancel</button>
+            <button class="btn btn-primary btn" (click)="saveProduct()">Save</button>
+          </div>
+          <small class="col text-right">*&nbsp;Required</small>
+        </div>
+      </form>
+     
+    </div>
+    <div [hidden]="submitted">
+      <div [hidden]="editProductForm">
+        <div>
+          <button class="btn btn-primary btn" style="float:right" (click)="addProduct()">+ Add product</button>
+        </div>
+        <br>  
+        <div>
+          <br>
+          <ul class="list-group">
+              <li class="list-group-item" *ngFor="let product of products">
+                <span>{{product.name}}</span> 
+                <div style="float:right">
+                  <button class="btn btn-outline-dark btn" (click)="editProduct(product)">Edit</button>
+                  <button class="btn btn-outline-danger btn" (click)="remove(product)">x</button>
+                </div>
+              </li>
+            </ul>   
+        </div>
+        <br>
+        <div>
+          <h3><label [hidden]="!showRemoveMess">Are you sure?</label></h3>
+          <button class="btn btn-outline-success btn-lg" [hidden]="!showRemoveMess" (click)="submitRemove()">Yes</button>
+          <button class="btn btn-outline-danger btn-lg" [hidden]="!showRemoveMess" (click)="cancel()">No</button>
+        </div>  
+        <br>   
+      </div>
+      <div [hidden]="!editProductForm" style="width: 500px;">
+        <form class="container mx-auto" (ngSubmit)="onSubmit()" #productForm="ngForm">
+          <div class="form-group">
+            <label for="name">Name&nbsp;*</label>
+            <input type="text" class="form-control" id="name" [(ngModel)]="modified.name" required>
+          </div>
+          <div class="form-group">
+            <label for="ingredients">Ingredients&nbsp;*</label>
+            <div class="checkbox" *ngFor="let i of ingredients">
+              <label><input type="checkbox" value="{{i.name}}" id="{{i.name}}" [(ngModel)]="checkbox[i.name]"> {{i.name}}</label>
+            </div>
+          </div>
+          <br>
+        </form>
+        <div class="row">
+          <div class="col-auto">
+            <button class="btn btn-primary btn" (click)="cancel()">Cancel</button>
+            <button class="btn btn-primary btn" (click)="saveChanges()">Save</button>
+          </div>
+          <small class="col text-right">*&nbsp;Required</small>
+        </div>
+      </div>
+    </div>
+  </div>   
+</div>

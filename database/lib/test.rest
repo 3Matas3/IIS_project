@@ -1,0 +1,7 @@
+POST http://localhost:8888/users HTTP/1.1
+content-type: application/json
+
+{
+    "username": "admin",
+    "email": "admin@admin.com"
+}

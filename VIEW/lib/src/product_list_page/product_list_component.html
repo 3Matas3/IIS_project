@@ -1,0 +1,9 @@
+<button class="button" (click)="goToEvents()">Akce</button>
+
+<h2>Products</h2>
+
+<ul class="products">
+  <li *ngFor="let product of products">
+      <span class="badge">{{product.name}}</span> <button class="button" (click)="gotoDetail(product)">></button>
+  </li>
+</ul>

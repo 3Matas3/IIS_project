@@ -1,0 +1,51 @@
+<div style="float:right">
+    <button class="btn btn-primary btn" (click)="register()">Create new user</button>
+</div>
+<div>
+    <h2>User manager</h2>
+</div>
+<br>
+<div [hidden]="submitted">
+    <div>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let user of users">
+                <span>{{user.username}}</span> 
+                <div style="float:right">
+                    <button class="btn btn-outline-dark btn" (click)="edit(user)">Edit</button>
+                    <button class="btn btn-outline-danger btn" (click)="remove(user)">x</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <br>
+        <h3><label [hidden]="!showRemoveMess">Are you sure?</label></h3>
+        <button class="btn btn-outline-success btn-lg" [hidden]="!showRemoveMess" (click)="submitRemove()">Yes</button>
+        <button class="btn btn-outline-danger btn-lg" [hidden]="!showRemoveMess" (click)="cancel()">No</button>
+    </div>
+    <br>
+    <button class="btn btn-primary btn" (click)="goBack()">Back to events</button>
+</div>
+
+<div [hidden]="!submitted">
+    <form #eventForm="ngForm">
+        <div class="form-group">
+            <label for="username">Username&nbsp;*</label>
+            <input type="text" class="form-control" id="username" [(ngModel)]="modified.username" ngControl="username" required>
+        </div>
+        <div class="form-group">
+            <label for="role">Role&nbsp;*</label>
+            <select class="form-control" id="role" [(ngModel)]="modifiedRoleString" ngControl="role" required>
+                <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+            </select>
+        </div>
+    </form>
+    <br>
+    <div>
+        <button class="btn btn-primary btn" (click)="cancel()">Cancel</button>
+        <button class="btn btn-primary btn" (click)="saveChanges()" type="submit">Save</button>
+    </div>
+    <div>
+        <small class="col text-right">*&nbsp;Required</small>
+    </div>
+</div>
